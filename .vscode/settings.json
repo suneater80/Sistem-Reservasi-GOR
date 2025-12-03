@@ -1,0 +1,22 @@
+{
+    "java.project.sourcePaths": [
+        "src",
+        "test"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "java.test.config": {
+        "name": "JUnit Tests",
+        "workingDirectory": "${workspaceFolder}",
+        "classPaths": [
+            "${workspaceFolder}/bin",
+            "${workspaceFolder}/lib/junit-platform-console-standalone-1.10.1.jar"
+        ],
+        "vmArgs": [
+            "-ea"
+        ]
+    },
+    "java.test.defaultConfig": "JUnit Tests"
+}

@@ -1,5 +1,7 @@
 package service;
 
+import decorator.InsurancePaymentDecorator;
+import decorator.TaxPaymentDecorator;
 import model.*;
 import repository.*;
 import strategy.*;
@@ -26,7 +28,7 @@ public class ReservationService {
     // ====================================================================================
     // 1. Facade Method: Proses Utama Reservasi
     // ====================================================================================
-    public Optional<Reservation> bookField(String userId, String fieldId, LocalDate date, int startHour, int durationHours, String paymentMethod) {
+    public Optional<Reservation> bookField(String userId, String fieldId, LocalDate date, int startHour, int durationHours, String paymentMethod, boolean addTax, boolean addInsurance) {
         // 1. Validasi Input (Bagian dari Clean Code/Error Handling)
         Optional<User> userOpt = userRepository.findById(userId);
         Optional<Field> fieldOpt = fieldRepository.findById(fieldId);
@@ -55,9 +57,29 @@ public class ReservationService {
         String reservationId = IdGenerator.generateUniqueId("RES");
         Reservation newReservation = new Reservation(reservationId, user, field, date, startHour, durationHours, totalFee, strategy);
         
-        // 6. Proses Pembayaran (Simulasi Payment)
+        // 6. Proses Pembayaran dengan Decorator Pattern (Optional Tax & Insurance)
         String paymentId = IdGenerator.generateUniqueId("PAY");
         Payment payment = new Payment(paymentId, totalFee, paymentMethod);
+        
+        // Apply decorators if requested
+        if (addTax) {
+            TaxPaymentDecorator taxDecorator = new TaxPaymentDecorator(payment);
+            System.out.printf("Pajak (PPN 10%%): Rp%,.0f%n", taxDecorator.getTaxAmount());
+            totalFee = taxDecorator.getTotalWithTax();
+        }
+        
+        if (addInsurance) {
+            InsurancePaymentDecorator insuranceDecorator = new InsurancePaymentDecorator(payment);
+            System.out.printf("Asuransi: Rp%,.0f%n", insuranceDecorator.getInsuranceFee());
+            totalFee = insuranceDecorator.getTotalWithInsurance();
+        }
+        
+        // Update total fee jika ada tambahan
+        if (addTax || addInsurance) {
+            newReservation = new Reservation(reservationId, user, field, date, startHour, durationHours, totalFee, strategy);
+            payment = new Payment(paymentId, totalFee, paymentMethod);
+        }
+        
         newReservation.setPayment(payment);
 
         reservationRepository.save(newReservation);

@@ -4,11 +4,13 @@ import factory.FieldFactory;
 import model.*;
 import repository.*;
 import service.ReservationService;
+import strategy.TariffStrategy;
 import util.IdGenerator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 // Kelas Utama (Main Class) dengan Antarmuka CLI (Command Line Interface)
@@ -327,6 +329,21 @@ public class GorAppCli {
             System.out.println("Jenis Tarif: " + strategy.getName());
             System.out.printf("Total Biaya Estimasi (%.0f/jam x %d jam): Rp%,.0f\n", field.getPricePerHour(), duration, estimatedPrice);
             
+            // Tanyakan opsi Pajak dan Asuransi (Decorator Pattern)
+            String addTaxStr = getStringInput("Tambahkan Pajak PPN 10%? (YA/TIDAK): ");
+            boolean addTax = addTaxStr.equalsIgnoreCase("YA");
+            
+            String addInsuranceStr = getStringInput("Tambahkan Asuransi Rp15.000? (YA/TIDAK): ");
+            boolean addInsurance = addInsuranceStr.equalsIgnoreCase("YA");
+            
+            double finalPrice = estimatedPrice;
+            if (addTax) finalPrice += estimatedPrice * 0.10;
+            if (addInsurance) finalPrice += 15000.0;
+            
+            if (addTax || addInsurance) {
+                System.out.printf("Total Biaya Final: Rp%,.0f\n", finalPrice);
+            }
+            
             String confirm = getStringInput("Konfirmasi Booking dan Bayar (YA/TIDAK): ");
             if (!confirm.equalsIgnoreCase("YA")) {
                 System.out.println("Reservasi dibatalkan oleh pengguna.");
@@ -335,8 +352,8 @@ public class GorAppCli {
             
             String paymentMethod = getStringInput("Metode Pembayaran (Contoh: CASH/TRANSFER): ");
 
-            // Panggil Facade Method
-            Optional<Reservation> resOpt = reservationService.bookField(userId, fieldId, date, startHour, duration, paymentMethod);
+            // Panggil Facade Method dengan Decorator options
+            Optional<Reservation> resOpt = reservationService.bookField(userId, fieldId, date, startHour, duration, paymentMethod, addTax, addInsurance);
             
             if (resOpt.isPresent()) {
                 System.out.println("\n[RESERVASI BERHASIL!]");
