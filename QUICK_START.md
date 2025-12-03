@@ -1,40 +1,54 @@
 # PANDUAN MENJALANKAN APLIKASI
 
-## ✅ COMPILE & RUN SUDAH BERHASIL!
+## ✅ PROJECT SUDAH LENGKAP!
 
-Error compile sudah diperbaiki dengan menambahkan:
-```java
-import java.util.Optional;
-import strategy.TariffStrategy;
-```
+Aplikasi ini memiliki 2 interface:
+1. **CLI (Command Line Interface)** - Versi teks di terminal
+2. **GUI (Graphical User Interface)** - Versi window dengan Swing
 
 ---
 
-## 🚀 CARA MENJALANKAN APLIKASI
+## 🎨 MENJALANKAN GUI (RECOMMENDED)
 
-### Cara 1: Menggunakan Batch Script (RECOMMENDED - Windows)
+### 1. Compile GUI:
+```bash
+.\compile-gui.bat
+```
+
+### 2. Run GUI:
+```bash
+.\run-gui.bat
+```
+
+### 3. Cara Manual:
+```bash
+# Compile
+javac -d bin -sourcepath src src/gui/*.java src/app/*.java
+
+# Run
+java -cp bin gui.GorAppGUI
+```
+
+**Fitur GUI:**
+- ✅ Welcome Screen dengan 2 pilihan: Admin / Customer
+- ✅ Admin Dashboard: CRUD Lapangan, User, Lihat Reservasi (3 tabs)
+- ✅ Customer Dashboard: Booking dengan Tax/Insurance checkbox (Decorator!), Riwayat, Cancel
+- ✅ Design Patterns visible: Factory, Strategy, **Decorator**
+
+---
+
+## 📟 MENJALANKAN CLI (Command Line Interface)
+
+### Cara 1: Menggunakan Batch Script (Windows)
 
 1. **Compile aplikasi:**
-   ```
-   Double-click: compile.bat
-   ```
-   Atau di terminal:
    ```bash
    .\compile.bat
    ```
 
 2. **Run aplikasi:**
-   ```
-   Double-click: run.bat
-   ```
-   Atau di terminal:
    ```bash
    .\run.bat
-   ```
-
-3. **Clean build (jika perlu):**
-   ```
-   Double-click: clean.bat
    ```
 
 ### Cara 2: Manual Command
