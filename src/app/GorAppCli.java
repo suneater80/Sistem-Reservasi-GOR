@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-// Kelas Utama (Main Class) dengan Antarmuka CLI (Command Line Interface)
 public class GorAppCli {
     private static UserRepository userRepository;
     private static FieldRepository fieldRepository;
@@ -21,24 +20,21 @@ public class GorAppCli {
     private static ReservationService reservationService;
     private static Scanner scanner;
     
-    private static final String ADMIN_ID = "ADMIN001"; // ID khusus untuk Admin
+    private static final String ADMIN_ID = "ADMIN001";
 
     public static void main(String[] args) {
-        // Inisialisasi Components
         userRepository = new UserRepository();
         fieldRepository = new FieldRepository();
         reservationRepository = new ReservationRepository();
         reservationService = new ReservationService(userRepository, fieldRepository, reservationRepository);
         scanner = new Scanner(System.in);
         
-        // Panggil setup data awal
         setupInitialData();
         
         System.out.println("=================================================");
         System.out.println("  SISTEM RESERVASI GOR (OOP & Design Pattern)");
         System.out.println("=================================================");
         
-        // Loop utama aplikasi
         int choice;
         do {
             showMainMenu();
@@ -60,25 +56,17 @@ public class GorAppCli {
                 }
             } catch (Exception e) {
                 System.err.println("\n[ERROR SISTEM] Terjadi kesalahan: " + e.getMessage());
-                // e.printStackTrace(); // Uncomment untuk debugging detail
             }
         } while (choice != 0);
         
         scanner.close();
     }
     
-    // =======================================================================
-    // 1. Setup Data Awal (Refactoring FieldRepository Initialization)
-    // =======================================================================
     private static void setupInitialData() {
-        // Data Admin
         userRepository.save(new User(ADMIN_ID, "Administrator GOR", "00000000"));
-        
-        // Data Dummy Customer
         userRepository.save(new User("CUST001", "Ani Wulandari", "081211112222"));
         userRepository.save(new User("CUST002", "Budi Doremi", "081233334444"));
 
-        // Data Dummy Lapangan menggunakan Factory Method (FASE 2)
         Field f1 = FieldFactory.createField("FUTSAL", "FUT01", "Lapangan Futsal 1", 120000.0, "12");
         Field f2 = FieldFactory.createField("FUTSAL", "FUT02", "Lapangan Futsal 2", 110000.0, "10");
         Field b1 = FieldFactory.createField("BADMINTON", "BAD01", "Lapangan Badminton A", 65000.0, "true");
@@ -92,9 +80,6 @@ public class GorAppCli {
         System.out.println("Data awal Lapangan (" + fieldRepository.count() + ") dan User (" + userRepository.count() + ") berhasil diinisialisasi.");
     }
 
-    // =======================================================================
-    // 2. Menu Utama & Login
-    // =======================================================================
     private static void showMainMenu() {
         System.out.println("\n--- MENU UTAMA ---");
         System.out.println("1. Masuk sebagai Admin");
@@ -103,7 +88,6 @@ public class GorAppCli {
     }
 
     private static void handleAdminMenu() {
-        // Simulasi Login Admin
         String inputId = getStringInput("Masukkan ID Admin: ");
         if (!inputId.equals(ADMIN_ID)) {
             System.err.println("ID Admin salah.");
@@ -130,7 +114,6 @@ public class GorAppCli {
     }
     
     private static void handleCustomerMenu() {
-        // Simulasi Login Customer
         String userId = getStringInput("Masukkan ID Customer (Contoh: CUST001): ");
         Optional<User> userOpt = userRepository.findById(userId);
 
@@ -163,9 +146,6 @@ public class GorAppCli {
         } while (choice != 0);
     }
     
-    // =======================================================================
-    // 3. CRUD Lapangan (Admin)
-    // =======================================================================
     private static void crudFieldMenu() {
         System.out.println("\n--- KELOLA LAPANGAN ---");
         viewAllFields();
@@ -203,11 +183,9 @@ public class GorAppCli {
             Field newField;
             if (type.equalsIgnoreCase("FUTSAL")) {
                 int capacity = getIntInput("Kapasitas Pemain: ");
-                // Memanggil Factory Method
                 newField = FieldFactory.createField(type, newId, name, price, String.valueOf(capacity));
             } else if (type.equalsIgnoreCase("BADMINTON")) {
                 boolean isIndoor = getStringInput("Indoor? (true/false): ").equalsIgnoreCase("true");
-                // Memanggil Factory Method
                 newField = FieldFactory.createField(type, newId, name, price, String.valueOf(isIndoor));
             } else {
                 System.err.println("Jenis lapangan tidak didukung.");
@@ -228,7 +206,7 @@ public class GorAppCli {
             Field field = fieldOpt.get();
             System.out.printf("Harga lama Lapangan %s: %,.0f\n", field.getName(), field.getBasePricePerHour());
             double newPrice = getDoubleInput("Masukkan Harga Dasar per Jam yang baru: ");
-            field.setBasePricePerHour(newPrice); // Encapsulation: menggunakan setter
+            field.setBasePricePerHour(newPrice);
             fieldRepository.save(field);
             System.out.println("SUCCESS: Harga Lapangan berhasil diperbarui!");
         } else {
@@ -246,9 +224,6 @@ public class GorAppCli {
         }
     }
 
-    // =======================================================================
-    // 4. CRUD Pengguna (Admin)
-    // =======================================================================
     private static void crudUserMenu() {
         System.out.println("\n--- KELOLA PENGGUNA ---");
         viewAllUsers();
@@ -294,9 +269,6 @@ public class GorAppCli {
         }
     }
 
-    // =======================================================================
-    // 5. Reservasi (Customer)
-    // =======================================================================
     private static void createReservation(String userId) {
         System.out.println("\n--- BUAT RESERVASI BARU ---");
         viewAllFields();
@@ -329,7 +301,6 @@ public class GorAppCli {
             System.out.println("Jenis Tarif: " + strategy.getName());
             System.out.printf("Total Biaya Estimasi (%.0f/jam x %d jam): Rp%,.0f\n", field.getPricePerHour(), duration, estimatedPrice);
             
-            // Tanyakan opsi Pajak dan Asuransi (Decorator Pattern)
             String addTaxStr = getStringInput("Tambahkan Pajak PPN 10%? (YA/TIDAK): ");
             boolean addTax = addTaxStr.equalsIgnoreCase("YA");
             
@@ -352,7 +323,6 @@ public class GorAppCli {
             
             String paymentMethod = getStringInput("Metode Pembayaran (Contoh: CASH/TRANSFER): ");
 
-            // Panggil Facade Method dengan Decorator options
             Optional<Reservation> resOpt = reservationService.bookField(userId, fieldId, date, startHour, duration, paymentMethod, addTax, addInsurance);
             
             if (resOpt.isPresent()) {
@@ -360,7 +330,6 @@ public class GorAppCli {
                 System.out.println(resOpt.get());
                 System.out.printf("Pembayaran Rp%,.0f berhasil diproses.\n", resOpt.get().getTotalFee());
             } else {
-                // Pesan error sudah dicetak di Facade Service
                 System.err.println("Reservasi GAGAL.");
             }
             
@@ -371,7 +340,6 @@ public class GorAppCli {
     
     private static void cancelReservation() {
         String resId = getStringInput("Masukkan ID Reservasi yang akan dibatalkan: ");
-        // Panggil Facade Method
         reservationService.cancelReservation(resId);
     }
     
@@ -390,15 +358,11 @@ public class GorAppCli {
         }
         
         System.out.println("\n--- DAFTAR RESERVASI (" + reservations.size() + ") ---");
-        // Sort by date (Clean Code: Stream API)
         reservations.stream()
             .sorted(java.util.Comparator.comparing(Reservation::getDate).thenComparing(Reservation::getStartTimeHour))
             .forEach(System.out::println);
     }
 
-    // =======================================================================
-    // 6. Utility Input
-    // =======================================================================
     private static String getStringInput(String prompt) {
         System.out.print(prompt);
         return scanner.nextLine().trim();
@@ -420,7 +384,7 @@ public class GorAppCli {
         while (true) {
             try {
                 System.out.print(prompt);
-                String input = scanner.nextLine().trim().replace(",", "."); // Handle koma sebagai desimal
+                String input = scanner.nextLine().trim().replace(",", ".");
                 return Double.parseDouble(input);
             } catch (NumberFormatException e) {
                 System.err.println("Input harus berupa angka desimal.");

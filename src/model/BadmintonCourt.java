@@ -1,8 +1,7 @@
 package model;
 
-// Implementasi Inheritance dan Polymorphism
 public class BadmintonCourt extends Field {
-    private boolean isIndoor; // Lapangan Indoor atau Outdoor
+    private boolean isIndoor;
 
     public BadmintonCourt(String id, String name, double basePricePerHour, boolean isIndoor) {
         super(id, name, basePricePerHour);
@@ -11,8 +10,6 @@ public class BadmintonCourt extends Field {
 
     @Override
     public double getPricePerHour() {
-        // Implementasi Polimorfisme: Harga Badminton = Harga Dasar (asumsi sudah termasuk shuttlecock)
-        // Tidak ada surcharge khusus seperti futsal
         return getBasePricePerHour();
     }
     

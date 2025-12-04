@@ -1,9 +1,8 @@
 package model;
 
-// Implementasi Inheritance dan Polymorphism
 public class FutsalCourt extends Field {
-    private int capacity; // Kapasitas maksimal pemain
-    private static final double FUTSAL_SURCHARGE = 5000.0; // Biaya tambahan tetap untuk kebersihan/peralatan
+    private int capacity;
+    private static final double FUTSAL_SURCHARGE = 5000.0;
 
     public FutsalCourt(String id, String name, double basePricePerHour, int capacity) {
         super(id, name, basePricePerHour);
@@ -12,7 +11,6 @@ public class FutsalCourt extends Field {
 
     @Override
     public double getPricePerHour() {
-        // Implementasi Polimorfisme: Harga Futsal = Harga Dasar + Surcharge
         return getBasePricePerHour() + FUTSAL_SURCHARGE;
     }
     

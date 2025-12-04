@@ -2,7 +2,6 @@ package repository;
 
 import java.util.*;
 
-// Generic Repository - Implementasi Generic Programming
 public abstract class GenericRepository<T, K> {
     protected final Map<K, T> dataMap;
 
@@ -10,7 +9,6 @@ public abstract class GenericRepository<T, K> {
         this.dataMap = new HashMap<>();
     }
 
-    // CRUD Operations dengan Generic Type
     public void save(T entity) {
         dataMap.put(getId(entity), entity);
     }
@@ -35,7 +33,5 @@ public abstract class GenericRepository<T, K> {
         return dataMap.containsKey(id);
     }
 
-    // Abstract method yang harus diimplementasikan oleh subclass
-    // untuk mendapatkan ID dari entity
     protected abstract K getId(T entity);
 }

@@ -1,10 +1,9 @@
 package model;
 
-// Implementasi Abstraction dan Inheritance
 public abstract class Field {
     private String id;
     private String name;
-    private double basePricePerHour; // Harga dasar per jam
+    private double basePricePerHour;
 
     public Field(String id, String name, double basePricePerHour) {
         this.id = id;
@@ -12,11 +11,8 @@ public abstract class Field {
         this.basePricePerHour = basePricePerHour;
     }
 
-    // Metode abstrak untuk Polimorfisme.
-    // Setiap jenis lapangan mungkin memiliki perhitungan harga spesifik (misal: termasuk biaya bola/shuttlecock)
     public abstract double getPricePerHour();
     
-    // Getters
     public String getId() {
         return id;
     }
@@ -29,12 +25,11 @@ public abstract class Field {
         return basePricePerHour;
     }
     
-    // Setters
     public void setBasePricePerHour(double basePricePerHour) {
         this.basePricePerHour = basePricePerHour;
     }
     
-    public abstract String getType(); // Untuk identifikasi jenis lapangan
+    public abstract String getType();
 
     @Override
     public String toString() {

@@ -3,18 +3,17 @@ package model;
 import java.time.LocalDate;
 import strategy.TariffStrategy;
 
-// Entitas Reservation
 public class Reservation {
     private String id;
     private User user;
     private Field field;
     private LocalDate date;
-    private int startTimeHour; // Jam mulai (0-23)
-    private int durationHours; // Durasi jam
+    private int startTimeHour;
+    private int durationHours;
     private double totalFee;
-    private String status; // "BOOKED", "CANCELED"
+    private String status;
     private Payment payment;
-    private TariffStrategy appliedStrategy; // Strategi tarif yang digunakan
+    private TariffStrategy appliedStrategy;
 
     public Reservation(String id, User user, Field field, LocalDate date, int startTimeHour, int durationHours, double totalFee, TariffStrategy appliedStrategy) {
         this.id = id;
@@ -36,7 +35,6 @@ public class Reservation {
         this.status = status;
     }
 
-    // Getters
     public String getId() { return id; }
     public User getUser() { return user; }
     public Field getField() { return field; }

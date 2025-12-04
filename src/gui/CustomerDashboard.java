@@ -10,9 +10,6 @@ import repository.*;
 import model.*;
 import service.ReservationService;
 
-/**
- * Customer Dashboard - Booking, Cancel, Riwayat
- */
 public class CustomerDashboard extends JPanel {
     
     private GorAppGUI mainApp;

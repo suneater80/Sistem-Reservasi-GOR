@@ -7,9 +7,6 @@ import repository.*;
 import model.*;
 import factory.FieldFactory;
 
-/**
- * Admin Dashboard - CRUD Lapangan, User, Lihat Reservasi
- */
 public class AdminDashboard extends JPanel {
     
     private GorAppGUI mainApp;

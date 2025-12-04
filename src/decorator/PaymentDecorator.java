@@ -2,8 +2,6 @@ package decorator;
 
 import model.Payment;
 
-// Design Pattern: Decorator Pattern (Structural)
-// Abstract Decorator untuk menambahkan fitur ekstra pada Payment
 public abstract class PaymentDecorator extends Payment {
     protected Payment decoratedPayment;
 

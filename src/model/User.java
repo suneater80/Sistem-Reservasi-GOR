@@ -1,6 +1,5 @@
 package model;
 
-// Implementasi Encapsulation dan Clean Code
 public class User {
     private String id;
     private String name;
@@ -12,7 +11,6 @@ public class User {
         this.phone = phone;
     }
 
-    // Getters
     public String getId() {
         return id;
     }
@@ -25,7 +23,6 @@ public class User {
         return phone;
     }
 
-    // Setters
     public void setName(String name) {
         this.name = name;
     }

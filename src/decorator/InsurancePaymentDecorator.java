@@ -2,9 +2,8 @@ package decorator;
 
 import model.Payment;
 
-// Concrete Decorator: Menambahkan asuransi pada payment
 public class InsurancePaymentDecorator extends PaymentDecorator {
-    private static final double INSURANCE_FEE = 15000.0; // Biaya asuransi flat
+    private static final double INSURANCE_FEE = 15000.0;
 
     public InsurancePaymentDecorator(Payment payment) {
         super(payment);
@@ -12,7 +11,6 @@ public class InsurancePaymentDecorator extends PaymentDecorator {
 
     @Override
     public double getAmount() {
-        // Return total including insurance fee for cascading
         return decoratedPayment.getAmount() + INSURANCE_FEE;
     }
 
