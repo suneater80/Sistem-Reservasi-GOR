@@ -252,7 +252,9 @@ public class AdminDashboard extends JPanel {
             try {
                 String type = (String) typeCombo.getSelectedItem();
                 String name = nameField.getText();
-                double price = Double.parseDouble(priceField.getText());
+                // Bersihkan format input: hapus titik pemisah ribuan dan ganti koma dengan titik
+                String priceText = priceField.getText().trim().replace(".", "").replace(",", ".");
+                double price = Double.parseDouble(priceText);
                 String extra = extraField.getText();
                 
                 if (name.isEmpty() || extra.isEmpty()) {
@@ -309,7 +311,9 @@ public class AdminDashboard extends JPanel {
         String newPriceStr = JOptionPane.showInputDialog(this, "Masukkan harga baru:", field.getBasePricePerHour());
         if (newPriceStr != null && !newPriceStr.isEmpty()) {
             try {
-                double newPrice = Double.parseDouble(newPriceStr);
+                // Bersihkan format input: hapus titik pemisah ribuan dan ganti koma dengan titik
+                String cleanPriceStr = newPriceStr.trim().replace(".", "").replace(",", ".");
+                double newPrice = Double.parseDouble(cleanPriceStr);
                 field.setBasePricePerHour(newPrice);
                 fieldRepository.save(field);
                 loadFieldData();
