@@ -36,6 +36,9 @@ public class CustomerDashboard extends JPanel {
         // Load or create default user
         loadOrCreateUser();
         
+        // Load sample data if needed
+        loadSampleData();
+        
         initComponents();
     }
     
@@ -47,6 +50,16 @@ public class CustomerDashboard extends JPanel {
         } else {
             currentUser = new User("USR001", "Customer Demo", "08123456789");
             userRepository.save(currentUser);
+        }
+    }
+    
+    private void loadSampleData() {
+        // Load sample fields if none exist
+        if (fieldRepository.count() == 0) {
+            fieldRepository.save(factory.FieldFactory.createField("FUTSAL", "FLD001", "Futsal A", 100000, "10"));
+            fieldRepository.save(factory.FieldFactory.createField("FUTSAL", "FLD002", "Futsal B", 120000, "12"));
+            fieldRepository.save(factory.FieldFactory.createField("BADMINTON", "FLD003", "Badminton 1", 50000, "true"));
+            fieldRepository.save(factory.FieldFactory.createField("BADMINTON", "FLD004", "Badminton 2", 45000, "false"));
         }
     }
     
@@ -391,7 +404,12 @@ public class CustomerDashboard extends JPanel {
     
     private void loadFieldsToCombo(JComboBox<String> combo) {
         combo.removeAllItems();
-        for (Field field : fieldRepository.findAll()) {
+        var fields = fieldRepository.findAll();
+        if (fields.isEmpty()) {
+            combo.addItem("Tidak ada lapangan tersedia");
+            return;
+        }
+        for (Field field : fields) {
             String type = field instanceof model.FutsalCourt ? "[FUTSAL]" : "[BADMINTON]";
             String label = String.format("%s %s - Rp %.0f/jam", type, field.getName(), field.getPricePerHour());
             combo.addItem(field.getId() + "||" + label);
@@ -400,7 +418,7 @@ public class CustomerDashboard extends JPanel {
     
     private String getFieldIdFromCombo(JComboBox<String> combo) {
         String selected = (String) combo.getSelectedItem();
-        if (selected == null) return null;
+        if (selected == null || !selected.contains("||")) return null;
         return selected.split("\\|\\|")[0];
     }
     
