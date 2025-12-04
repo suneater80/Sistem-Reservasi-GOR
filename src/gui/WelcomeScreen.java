@@ -26,7 +26,7 @@ public class WelcomeScreen extends JPanel {
         headerPanel.setLayout(new GridBagLayout()); // Ganti ke GridBagLayout untuk center vertical
         
         JLabel titleLabel = new JLabel("SISTEM RESERVASI GOR");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        titleLabel.setFont(new Font("Poppins", Font.BOLD, 36));
         titleLabel.setForeground(Color.WHITE);
         headerPanel.add(titleLabel);
         
@@ -43,16 +43,16 @@ public class WelcomeScreen extends JPanel {
         
         // Info Label
         JLabel infoLabel = new JLabel("Silakan pilih mode login:");
-        infoLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        infoLabel.setFont(new Font("Poppins", Font.PLAIN, 18));
         centerPanel.add(infoLabel, gbc);
         
         // Admin Button
         gbc.gridy = 1;
         JButton adminButton = new JButton("Login sebagai ADMIN");
-        adminButton.setFont(new Font("Arial", Font.BOLD, 22)); // Lebih besar dari 20
+        adminButton.setFont(new Font("Poppins", Font.BOLD, 22)); // Lebih besar dari 20
         adminButton.setPreferredSize(new Dimension(380, 85)); // Lebih besar
         adminButton.setBackground(new Color(46, 125, 50)); // Material Design Green (lebih gelap)
-        adminButton.setForeground(Color.WHITE);
+        adminButton.setForeground(Color.BLACK);
         adminButton.setFocusPainted(false);
         adminButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         adminButton.setBorder(BorderFactory.createLineBorder(new Color(27, 94, 32), 2)); // Border hijau gelap
@@ -62,10 +62,10 @@ public class WelcomeScreen extends JPanel {
         // Customer Button
         gbc.gridy = 2;
         JButton customerButton = new JButton("Login sebagai CUSTOMER");
-        customerButton.setFont(new Font("Arial", Font.BOLD, 22)); // Lebih besar dari 20
+        customerButton.setFont(new Font("Poppins", Font.BOLD, 22)); // Lebih besar dari 20
         customerButton.setPreferredSize(new Dimension(380, 85)); // Lebih besar
         customerButton.setBackground(new Color(25, 118, 210)); // Material Design Blue (lebih gelap)
-        customerButton.setForeground(Color.WHITE);
+        customerButton.setForeground(Color.BLACK);
         customerButton.setFocusPainted(false);
         customerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         customerButton.setBorder(BorderFactory.createLineBorder(new Color(13, 71, 161), 2)); // Border biru gelap
@@ -78,8 +78,8 @@ public class WelcomeScreen extends JPanel {
         footerPanel.setPreferredSize(new Dimension(0, 100)); // Lebih besar dari 80
         footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 30)); // Margin top 30px
         
-        JLabel footerLabel = new JLabel("© 2025 Sistem Reservasi GOR - Made with lope");
-        footerLabel.setFont(new Font("Arial", Font.ITALIC, 13)); // Sedikit lebih besar
+        JLabel footerLabel = new JLabel("© 2025 Sistem Reservasi GOR - Made with love");
+        footerLabel.setFont(new Font("Poppins", Font.ITALIC, 13)); // Sedikit lebih besar
         footerLabel.setForeground(new Color(100, 100, 100)); // Abu-abu lebih gelap
         footerPanel.add(footerLabel);
         

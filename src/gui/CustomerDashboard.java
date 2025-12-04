@@ -54,26 +54,61 @@ public class CustomerDashboard extends JPanel {
         setLayout(new BorderLayout());
         
         // Header
-        JPanel headerPanel = new JPanel();
+        JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(30, 144, 255));
-        headerPanel.setPreferredSize(new Dimension(0, 60));
+        headerPanel.setPreferredSize(new Dimension(0, 80)); // Lebih tinggi untuk 2 baris text
         
-        JLabel titleLabel = new JLabel("CUSTOMER DASHBOARD");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE);
-        headerPanel.add(titleLabel);
-        
-        JLabel userLabel = new JLabel("User: " + currentUser.getName());
-        userLabel.setForeground(Color.WHITE);
-        headerPanel.add(userLabel);
+        // Tombol Kembali di KIRI (dalam wrapper panel dengan GridBagLayout untuk auto-center)
+        JPanel leftPanel = new JPanel(new GridBagLayout());
+        leftPanel.setOpaque(false);
+        leftPanel.setPreferredSize(new Dimension(150, 80)); // Same as header height
         
         JButton logoutButton = new JButton("<< Kembali");
         logoutButton.addActionListener(e -> mainApp.showWelcomeScreen());
-        headerPanel.add(logoutButton);
+        logoutButton.setBackground(Color.RED);
+        logoutButton.setForeground(Color.BLACK);
+        logoutButton.setFocusPainted(false);
+        logoutButton.setPreferredSize(new Dimension(110, 25)); // Ukuran tombol
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST; // Align ke kiri
+        gbc.insets = new Insets(0, 10, 0, 0); // Left margin 10px
+        
+        leftPanel.add(logoutButton, gbc);
+        
+        // Dummy panel di KANAN untuk balance (sama lebarnya dengan leftPanel)
+        JPanel rightPanel = new JPanel();
+        rightPanel.setOpaque(false);
+        rightPanel.setPreferredSize(new Dimension(150, 80)); // Same as header height
+        
+        // Center panel dengan title dan user info
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setOpaque(false);
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0)); // Padding atas bawah
+        
+        JLabel titleLabel = new JLabel("CUSTOMER DASHBOARD");
+        titleLabel.setFont(new Font("Poppins", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JLabel userLabel = new JLabel("User: " + currentUser.getName());
+        userLabel.setFont(new Font("Poppins", Font.PLAIN, 13));
+        userLabel.setForeground(new Color(240, 240, 240)); 
+        userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        centerPanel.add(titleLabel);
+        centerPanel.add(Box.createVerticalStrut(5)); // Space antara title dan user
+        centerPanel.add(userLabel);
+        
+        // Add ke BorderLayout
+        headerPanel.add(leftPanel, BorderLayout.WEST);     // Kiri
+        headerPanel.add(centerPanel, BorderLayout.CENTER); // Tengah (2 labels stacked)
+        headerPanel.add(rightPanel, BorderLayout.EAST);    // Kanan (untuk balance)
         
         // Tabbed Pane
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setFont(new Font("Arial", Font.PLAIN, 14));
+        tabbedPane.setFont(new Font("Poppins", Font.PLAIN, 14));
         
         // Tab 1: Booking Lapangan
         tabbedPane.addTab("[Booking] Lapangan", createBookingPanel());
@@ -170,7 +205,7 @@ public class CustomerDashboard extends JPanel {
         gbc.gridy = row;
         gbc.gridwidth = 2;
         JCheckBox taxCheckbox = new JCheckBox("Tambahkan Pajak PPN 10% (Tax Decorator)");
-        taxCheckbox.setFont(new Font("Arial", Font.BOLD, 12));
+        taxCheckbox.setFont(new Font("Poppins", Font.BOLD, 12));
         taxCheckbox.setForeground(new Color(255, 69, 0));
         formPanel.add(taxCheckbox, gbc);
         
@@ -179,7 +214,7 @@ public class CustomerDashboard extends JPanel {
         // Insurance Checkbox (DECORATOR PATTERN!)
         gbc.gridy = row;
         JCheckBox insuranceCheckbox = new JCheckBox("Tambahkan Asuransi Rp15.000 (Insurance Decorator)");
-        insuranceCheckbox.setFont(new Font("Arial", Font.BOLD, 12));
+        insuranceCheckbox.setFont(new Font("Poppins", Font.BOLD, 12));
         insuranceCheckbox.setForeground(new Color(255, 69, 0));
         formPanel.add(insuranceCheckbox, gbc);
         
@@ -188,7 +223,7 @@ public class CustomerDashboard extends JPanel {
         // Price Preview
         gbc.gridy = row;
         JLabel priceLabel = new JLabel("Estimasi Harga: -");
-        priceLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        priceLabel.setFont(new Font("Poppins", Font.BOLD, 14));
         priceLabel.setForeground(new Color(0, 100, 0));
         formPanel.add(priceLabel, gbc);
         
@@ -257,8 +292,8 @@ public class CustomerDashboard extends JPanel {
         gbc.gridy = row;
         JButton bookButton = new JButton(">>> BOOKING SEKARANG <<<");
         bookButton.setBackground(new Color(34, 139, 34));
-        bookButton.setForeground(Color.WHITE);
-        bookButton.setFont(new Font("Arial", Font.BOLD, 16));
+        bookButton.setForeground(Color.BLACK);
+        bookButton.setFont(new Font("Poppins", Font.BOLD, 16));
         bookButton.setPreferredSize(new Dimension(0, 50));
         bookButton.addActionListener(e -> {
             try {
@@ -331,7 +366,7 @@ public class CustomerDashboard extends JPanel {
         };
         reservationTable = new JTable(reservationTableModel);
         reservationTable.setRowHeight(25);
-        reservationTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        reservationTable.setFont(new Font("Poppins", Font.PLAIN, 12));
         JScrollPane scrollPane = new JScrollPane(reservationTable);
         
         // Buttons
@@ -339,7 +374,7 @@ public class CustomerDashboard extends JPanel {
         
         JButton cancelButton = new JButton("[X] Batalkan Reservasi");
         cancelButton.setBackground(new Color(220, 20, 60));
-        cancelButton.setForeground(Color.WHITE);
+        cancelButton.setForeground(Color.BLACK);
         cancelButton.addActionListener(e -> cancelReservation());
         
         JButton refreshButton = new JButton("[Refresh]");

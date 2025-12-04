@@ -43,22 +43,45 @@ public class AdminDashboard extends JPanel {
         setLayout(new BorderLayout());
         
         // Header
-        JPanel headerPanel = new JPanel();
+        JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(34, 139, 34));
         headerPanel.setPreferredSize(new Dimension(0, 60));
         
-        JLabel titleLabel = new JLabel("ADMIN DASHBOARD");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE);
-        headerPanel.add(titleLabel);
+        // Tombol Kembali di KIRI (dalam wrapper panel dengan GridBagLayout untuk auto-center)
+        JPanel leftPanel = new JPanel(new GridBagLayout());
+        leftPanel.setOpaque(false);
+        leftPanel.setPreferredSize(new Dimension(160, 80)); // Same as header height
         
         JButton logoutButton = new JButton("<< Kembali");
         logoutButton.addActionListener(e -> mainApp.showWelcomeScreen());
-        headerPanel.add(logoutButton);
+        logoutButton.setBackground(Color.RED);
+        logoutButton.setForeground(Color.BLACK);
+        logoutButton.setFocusPainted(false);
+        logoutButton.setPreferredSize(new Dimension(110, 25)); 
         
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST; 
+        gbc.insets = new Insets(0, 10, 0, 0); 
+        
+        leftPanel.add(logoutButton, gbc);
+        
+        JPanel rightPanel = new JPanel();
+        rightPanel.setOpaque(false);
+        rightPanel.setPreferredSize(new Dimension(160, 80)); 
+        
+        // Title di TENGAH
+        JLabel titleLabel = new JLabel("ADMIN DASHBOARD", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Poppins", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+        
+        // Add ke BorderLayout
+        headerPanel.add(leftPanel, BorderLayout.WEST);     // Kiri (width 150px)
+        headerPanel.add(titleLabel, BorderLayout.CENTER);   // Tengah
+        headerPanel.add(rightPanel, BorderLayout.EAST);    // Kanan (width 150px untuk balance)
+
         // Tabbed Pane
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setFont(new Font("Arial", Font.PLAIN, 14));
+        tabbedPane.setFont(new Font("Poppins", Font.PLAIN, 14));
         
         // Tab 1: Kelola Lapangan
         tabbedPane.addTab("Kelola Lapangan", createFieldManagementPanel());
@@ -87,7 +110,7 @@ public class AdminDashboard extends JPanel {
         };
         fieldTable = new JTable(fieldTableModel);
         fieldTable.setRowHeight(25);
-        fieldTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        fieldTable.setFont(new Font("Poppins", Font.PLAIN, 12));
         JScrollPane scrollPane = new JScrollPane(fieldTable);
         
         // Buttons
@@ -95,20 +118,22 @@ public class AdminDashboard extends JPanel {
         
         JButton addButton = new JButton("[+] Tambah Lapangan");
         addButton.setBackground(new Color(34, 139, 34));
-        addButton.setForeground(Color.WHITE);
+        addButton.setForeground(Color.BLACK);
         addButton.addActionListener(e -> addField());
         
         JButton editButton = new JButton("[Edit]");
         editButton.setBackground(new Color(255, 165, 0));
-        editButton.setForeground(Color.WHITE);
+        editButton.setForeground(Color.BLACK);
         editButton.addActionListener(e -> editField());
         
         JButton deleteButton = new JButton("[X] Hapus");
         deleteButton.setBackground(new Color(220, 20, 60));
-        deleteButton.setForeground(Color.WHITE);
+        deleteButton.setForeground(Color.BLACK);
         deleteButton.addActionListener(e -> deleteField());
         
         JButton refreshButton = new JButton("[Refresh]");
+        refreshButton.setBackground(new Color(70, 130, 180));
+        refreshButton.setForeground(Color.BLACK);   
         refreshButton.addActionListener(e -> loadFieldData());
         
         buttonPanel.add(addButton);
@@ -136,7 +161,7 @@ public class AdminDashboard extends JPanel {
         };
         userTable = new JTable(userTableModel);
         userTable.setRowHeight(25);
-        userTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        userTable.setFont(new Font("Poppins", Font.PLAIN, 12));
         JScrollPane scrollPane = new JScrollPane(userTable);
         
         // Buttons
@@ -144,15 +169,17 @@ public class AdminDashboard extends JPanel {
         
         JButton addButton = new JButton("[+] Tambah User");
         addButton.setBackground(new Color(34, 139, 34));
-        addButton.setForeground(Color.WHITE);
+        addButton.setForeground(Color.BLACK);
         addButton.addActionListener(e -> addUser());
         
         JButton deleteButton = new JButton("[X] Hapus");
         deleteButton.setBackground(new Color(220, 20, 60));
-        deleteButton.setForeground(Color.WHITE);
+        deleteButton.setForeground(Color.BLACK);
         deleteButton.addActionListener(e -> deleteUser());
         
         JButton refreshButton = new JButton("[Refresh]");
+        refreshButton.setBackground(new Color(70, 130, 180));
+        refreshButton.setForeground(Color.BLACK);
         refreshButton.addActionListener(e -> loadUserData());
         
         buttonPanel.add(addButton);
@@ -179,13 +206,15 @@ public class AdminDashboard extends JPanel {
         };
         reservationTable = new JTable(reservationTableModel);
         reservationTable.setRowHeight(25);
-        reservationTable.setFont(new Font("Arial", Font.PLAIN, 12));
+        reservationTable.setFont(new Font("Poppins", Font.PLAIN, 12));
         JScrollPane scrollPane = new JScrollPane(reservationTable);
         
         // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         
         JButton refreshButton = new JButton("[Refresh]");
+        refreshButton.setBackground(new Color(70, 130, 180));
+        refreshButton.setForeground(Color.BLACK);
         refreshButton.addActionListener(e -> loadReservationData());
         
         buttonPanel.add(refreshButton);
@@ -216,7 +245,7 @@ public class AdminDashboard extends JPanel {
         JLabel extraLabel = new JLabel("Info Tambahan:");
         JTextField extraField = new JTextField();
         JLabel extraHintLabel = new JLabel("(Futsal: kapasitas, Badminton: indoor/outdoor)");
-        extraHintLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+        extraHintLabel.setFont(new Font("Poppins", Font.ITALIC, 10));
         
         JButton saveButton = new JButton("Simpan");
         saveButton.addActionListener(e -> {
